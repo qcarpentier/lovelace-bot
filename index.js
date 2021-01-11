@@ -6,13 +6,12 @@ const { BOT_TOKEN, PREFIX } = process.env;
 
 bot.on('ready', () => {
     console.log("Bot started.");
+});
 
-
-    // const onlineUsers = bot.users;
-    // onlineUsers.forEach(element => {
-    //   console.log(element);
-    // });
-    
+// Runs whenever a new user is added to the server
+bot.on("guildMemberAdd", member => {
+  // Assign automatically the 'Ptite frappe' role.
+  member.addRole(member.guild.roles.find(role => role.name === "Ptite frappe"));
 });
 
 bot.on('message', message => {
