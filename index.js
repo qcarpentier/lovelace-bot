@@ -10,8 +10,7 @@ bot.on('ready', () => {
 
 // Runs whenever a new user is added to the server
 bot.on("guildMemberAdd", member => {
-  // Assign automatically the 'Ptite frappe' role.
-  member.addRole(member.guild.roles.find(role => role.name === "Ptite frappe"));
+  console.log("New member!");
 });
 
 bot.on('message', message => {
