@@ -2,17 +2,28 @@ const Discord = require('discord.js');
 require('dotenv').config();
 const bot = new Discord.Client();
 
-const { BOT_TOKEN } = process.env;
+const { BOT_TOKEN, PREFIX } = process.env;
 
 bot.on('ready', () => {
     console.log("Bot started.");
+
+
+    // const onlineUsers = bot.users;
+    // onlineUsers.forEach(element => {
+    //   console.log(element);
+    // });
+    
 });
 
+bot.on('message', message => {
+  if (!message.content.startsWith(PREFIX) || message.author.bot) return;
 
-bot.on('message', msg => {
-  if (msg.content === 'ping') {
-    msg.reply('Pong!');
-  }
+  const args = message.content.slice(PREFIX.length).trim().split(' ');
+  const command = args.shift().toLowerCase();
+
+  if (command === "ping") {
+    message.reply('Pong!');
+  } 
 });
 
 bot.login(BOT_TOKEN);
