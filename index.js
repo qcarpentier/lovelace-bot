@@ -43,7 +43,7 @@ bot.on("message", (message) => {
 
   if (!command) {
     return message.channel.send(
-      "Malheureusement, je ne connais pas encore cette commande. Vous pouvez proposer votre idée dans le channel `#suggestions`!"
+      "Malheureusement, je ne connais pas encore cette commande. Vous pouvez proposer votre idée dans le channel `#suggestions-bot`!"
     );
   }
 

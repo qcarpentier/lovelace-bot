@@ -46,7 +46,7 @@ module.exports = {
       commands.find((c) => c.aliases && c.aliases.includes(name));
 
     if (!command) {
-      return message.reply("ce n'est pas une commande valide! 🥴");
+      return message.reply("cette commande n'existe pas! 🥴");
     }
 
     data.push(`🏷️ Nom: \`${command.name}\`\n`);
