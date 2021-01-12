@@ -1,7 +1,7 @@
 module.exports = {
   name: "say",
   description: "Permet au Bot d'avoir une conscience.",
-  aliases: ["parler"],
+  aliases: ["speak", "parler"],
   args: true,
   guildOnly: true,
   usage: "<phrase que le bot va prononcer>",
