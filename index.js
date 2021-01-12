@@ -5,6 +5,7 @@ const { BOT_TOKEN, PREFIX } = process.env;
 
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
+const cooldowns = new Discord.Collection();
 
 // Dynamically reading command files
 const commandFiles = fs
@@ -49,7 +50,7 @@ bot.on("message", (message) => {
   }
 
   if (command.args && !args.length) {
-    let reply = `Tu ne m'as pas donné de paramètre(s), ${message.author}!`;
+    let reply = `Tu ne m'as pas donné de paramètre(s), ${message.author}! 🤨`;
 
     if (command.usage) {
       reply += `\nIl faut utiliser la commande comme suit: \`${PREFIX}${command.name} ${command.usage}\``;
@@ -57,6 +58,34 @@ bot.on("message", (message) => {
 
     return message.channel.send(reply);
   }
+
+  // Cooldowns feature to avoid spam
+  if (!cooldowns.has(command.name)) {
+    cooldowns.set(command.name, new Discord.Collection());
+  }
+
+  const now = Date.now();
+  const timestamps = cooldowns.get(command.name);
+  const cooldownAmount = (command.cooldown || 3) * 1000;
+
+  if (timestamps.has(message.author.id)) {
+    const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+
+    if (now < expirationTime) {
+      const timeLeft = (expirationTime - now) / 1000;
+
+      return message.reply(
+        `merci d'attendre ${timeLeft.toFixed(
+          0
+        )} seconde(s) avant de réutiliser la commande \`${PREFIX}${
+          command.name
+        }\`. 👮🏻‍♀️`
+      );
+    }
+  }
+
+  timestamps.set(message.author.id, now);
+  setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
   try {
     command.execute(message, args);
