@@ -25,6 +25,11 @@ bot.on("ready", () => {
 // Runs whenever a new user is added to the server
 bot.on("guildMemberAdd", (member) => {
   console.log("New member!");
+
+  const role = member.guild.roles.cache.find(
+    (role) => role.name === "Ptite frappe"
+  );
+  member.roles.add(role);
 });
 
 // Runs whenever a new message has been sent
