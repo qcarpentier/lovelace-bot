@@ -1,6 +1,7 @@
 module.exports = {
   name: "args-info",
   description: "Information about the arguments provided. [TEMPLATE]",
+  aliases: ["args", "argsinfo"],
   args: true,
   guildOnly: true,
   usage: "<user> <role>",

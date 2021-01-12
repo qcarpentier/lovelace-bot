@@ -34,14 +34,18 @@ bot.on("message", (message) => {
   const args = message.content.slice(PREFIX.length).trim().split(" ");
   const commandName = args.shift().toLowerCase();
 
-  if (!bot.commands.has(commandName)) {
+  // Dynamically executing commands (command can have aliases)
+  const command =
+    bot.commands.get(commandName) ||
+    bot.commands.find(
+      (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
+    );
+
+  if (!command) {
     return message.channel.send(
       "Malheureusement, je ne connais pas encore cette commande. Vous pouvez proposer votre idée dans le channel `#suggestions`!"
     );
   }
-
-  // Dynamically executing commands
-  const command = bot.commands.get(commandName);
 
   if (command.guildOnly && message.channel.type === "dm") {
     return message.reply(
