@@ -8,13 +8,9 @@ module.exports = {
   execute(message, args) {
     const user = message.client.users.cache.get(args[0]);
 
-    console.log(user);
     if (!user) return;
 
-    const messageToSend = args.shift();
-
-    user.send(args.join(" "));
-
+    user.send(args.slice(1).join(" "));
     message.delete();
   },
 };
