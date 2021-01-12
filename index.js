@@ -42,7 +42,11 @@ bot.on("message", (message) => {
   // Dynamically executing commands
   const command = bot.commands.get(commandName);
 
-  console.log(command.args);
+  if (command.guildOnly && message.channel.type === "dm") {
+    return message.reply(
+      "Je ne peux pas effectuer cette commande dans mes messages privés! 😵"
+    );
+  }
 
   if (command.args && !args.length) {
     let reply = `Tu ne m'as pas donné de paramètre(s), ${message.author}!`;
