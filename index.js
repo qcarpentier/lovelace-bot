@@ -31,16 +31,31 @@ bot.on("message", (message) => {
   if (!message.content.startsWith(PREFIX) || message.author.bot) return;
 
   const args = message.content.slice(PREFIX.length).trim().split(" ");
-  const command = args.shift().toLowerCase();
+  const commandName = args.shift().toLowerCase();
 
-  if (!bot.commands.has(command))
+  if (!bot.commands.has(commandName)) {
     return message.channel.send(
       "Malheureusement, je ne connais pas encore cette commande. Vous pouvez proposer votre idée dans le channel `#suggestions`!"
     );
+  }
 
   // Dynamically executing commands
+  const command = bot.commands.get(commandName);
+
+  console.log(command.args);
+
+  if (command.args && !args.length) {
+    let reply = `Tu ne m'as pas donné de paramètre(s), ${message.author}!`;
+
+    if (command.usage) {
+      reply += `\nIl faut utiliser la commande comme suit: \`${PREFIX}${command.name} ${command.usage}\``;
+    }
+
+    return message.channel.send(reply);
+  }
+
   try {
-    bot.commands.get(command).execute(message, args);
+    command.execute(message, args);
   } catch (error) {
     console.error(error);
     message.reply("Il y a eu une erreur quand j'ai exécuté la commande!");
