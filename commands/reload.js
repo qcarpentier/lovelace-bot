@@ -1,12 +1,13 @@
 module.exports = {
 	name: 'reload',
 	description: 'Relance une commande',
+	private: true,
 	args: true,
 	execute(message, args) {
 		const commandName = args[0].toLowerCase();
 		const command =
-      message.client.commands.get(commandName) ||
-      message.client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+			message.client.commands.get(commandName) ||
+			message.client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
 		if (!command) {
 			return message.channel.send(

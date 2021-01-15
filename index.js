@@ -26,6 +26,7 @@ bot.once('ready', () => {
 	console.log('Bot started.');
 });
 
+// Runs whenever the bot receives a reaction on a message
 bot.on('messageReactionAdd', async (reaction, user) => {
 	if (reaction.message.partial) {
 		try {
@@ -36,6 +37,7 @@ bot.on('messageReactionAdd', async (reaction, user) => {
 		}
 	}
 
+	// Only look on specific message with specific emoji
 	if (reaction.message.id === '798821664171360289' && reaction.emoji.name === '🦾') {
 		const regloRole = reaction.message.guild.roles.cache.find(
 			(r) => r.name === 'Réglo',
@@ -55,6 +57,7 @@ bot.on('messageReactionAdd', async (reaction, user) => {
 	}
 });
 
+// Runs whenever the bot receives a deleted reaction on a message
 bot.on('messageReactionRemove', async (reaction, user) => {
 	if (reaction.message.partial) {
 		try {
@@ -65,6 +68,7 @@ bot.on('messageReactionRemove', async (reaction, user) => {
 		}
 	}
 
+	// Only look on specific message with specific emoji
 	if (reaction.message.id === '798821664171360289' && reaction.emoji.name === '🦾') {
 		const regloRole = reaction.message.guild.roles.cache.find(
 			(r) => r.name === 'Réglo',

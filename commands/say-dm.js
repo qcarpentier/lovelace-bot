@@ -2,6 +2,7 @@ module.exports = {
 	name: 'say-dm',
 	description: 'Permet au Bot d\'avoir une conscience.',
 	aliases: ['speak-dm', 'parler-mp'],
+	private: true,
 	args: true,
 	guildOnly: true,
 	usage: '<user id> <phrase que le bot va prononcer en mp>',

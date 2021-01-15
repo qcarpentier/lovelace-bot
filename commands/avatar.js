@@ -1,7 +1,6 @@
 module.exports = {
 	name: 'avatar',
-	description:
-    'Obtiens l\'URL de ton avatar ou celui d\'un utilisateur mentionné.',
+	description: 'Obtiens l\'URL de ton avatar ou celui d\'un utilisateur mentionné.',
 	aliases: ['icon', 'pdp'],
 	execute(message) {
 		if (!message.mentions.users.size) {

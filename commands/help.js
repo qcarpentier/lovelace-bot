@@ -3,8 +3,7 @@ const prefix = process.env.PREFIX;
 
 module.exports = {
 	name: 'help',
-	description:
-		'Liste de toutes les commandes ou information sur une commande spécifique.',
+	description: 'Liste de toutes les commandes ou information sur une commande spécifique.',
 	aliases: ['commands, commandes, aide'],
 	usage: '[nom de la commande]',
 	cooldown: 5,
@@ -16,7 +15,10 @@ module.exports = {
 			data.push(
 				'Voici une liste des commandes disponible sur le serveur de **Loosha**:',
 			);
-			data.push(commands.map((command) => command.name).join(', '));
+			// Get only public commands and remove " - " from the final one
+			data.push(commands.map((command) => {
+				if (!command.private) return `\`${prefix}${command.name}\` - `;
+			}).join('').toString().slice(0, -2));
 			data.push(
 				`\nVous pouvez aussi utiliser \`${prefix}help [nom de la commande]\` pour avoir des informations à propos d'une commande spécifique!`,
 			);
