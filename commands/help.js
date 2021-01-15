@@ -15,7 +15,7 @@ module.exports = {
 			data.push(
 				'Voici une liste des commandes disponibles sur le serveur de **Loosha**:',
 			);
-			// Get only public commands and remove " - " from the final one
+			// Returns multiple public commands dynamically and remove " - " from the final one
 			data.push(commands.map((command) => {
 				if (!command.private) return `\`${prefix}${command.name}\` - `;
 			}).join('').toString().slice(0, -2));
@@ -57,15 +57,16 @@ module.exports = {
 		if (command.aliases) { data.push(`💡 Alias: ${command.aliases.map(alias => `\`${prefix}${alias}\``).join(', ')}\n`); }
 		if (command.description) { data.push(`📚 Description: \`${command.description}\`\n`); }
 		if (command.usage) {
-			// Returns multiple usages dynamically 
+			// Returns multiple usages dynamically
 			data.push(`🔑 Utilisation: ${command.usage.map(u => {
-				if (u) return `\`${prefix}${command.name} ${u}\``;
-				return `\`${prefix}${command.name}\``;
+				const commandName = `${prefix}${command.name}`;
+				if (u) return `\`${commandName} ${u}\``;
+				return `\`${commandName}\``;
 			}).join(' ou ')}`);
 		}
 
 		data.push(
-			`⏳ Délais de récupération: \`${command.cooldown || 3} seconde(s)\``,
+			`\n⏳ Délais de récupération: \`${command.cooldown || 3} seconde(s)\``,
 		);
 
 		message.channel.send(data, { split: true });
