@@ -1,6 +1,9 @@
 const Discord = require('discord.js');
 const fs = require('fs');
-const config = require('./config.json');
+require('dotenv').config();
+
+const token = process.env.BOT_TOKEN;
+const prefix = process.env.PREFIX;
 
 const bot = new Discord.Client({
 	partials: ['CHANNEL', 'MESSAGE', 'REACTION'],
@@ -93,15 +96,15 @@ bot.on('guildMemberAdd', (member) => {
 
 // Runs whenever a new message has been sent
 bot.on('message', (message) => {
-	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-	const args = message.content.slice(config.prefix.length).trim().split(' ');
+	const args = message.content.slice(prefix.length).trim().split(' ');
 	const commandName = args.shift().toLowerCase();
 
 	// Dynamically executing commands (command can have aliases)
 	const command =
-    bot.commands.get(commandName) ||
-    bot.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+		bot.commands.get(commandName) ||
+		bot.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
 	if (!command) {
 		return message.channel.send(
@@ -119,7 +122,7 @@ bot.on('message', (message) => {
 		let reply = `Tu ne m'as pas donné de paramètre(s), ${message.author}! 🤨`;
 
 		if (command.usage) {
-			reply += `\nIl faut utiliser la commande comme suit: \`${config.prefix}${command.name} ${command.usage}\``;
+			reply += `\nIl faut utiliser la commande comme suit: \`${prefix}${command.name} ${command.usage}\``;
 		}
 
 		return message.channel.send(reply);
@@ -143,8 +146,7 @@ bot.on('message', (message) => {
 			return message.reply(
 				`merci d'attendre ${timeLeft.toFixed(
 					0,
-				)} seconde(s) avant de réutiliser la commande \`${config.prefix}${
-					command.name
+				)} seconde(s) avant de réutiliser la commande \`${prefix}${command.name
 				}\`. 👮🏻‍♀️`,
 			);
 		}
@@ -163,4 +165,4 @@ bot.on('message', (message) => {
 	}
 });
 
-bot.login(config.token);
+bot.login(token);

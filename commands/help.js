@@ -1,10 +1,10 @@
 require('dotenv').config();
-const config = require('../config.json');
+const prefix = process.env.PREFIX;
 
 module.exports = {
 	name: 'help',
 	description:
-    'Liste de toutes les commandes ou information sur une commande spécifique.',
+		'Liste de toutes les commandes ou information sur une commande spécifique.',
 	aliases: ['commands, commandes, aide'],
 	usage: '[nom de la commande]',
 	cooldown: 5,
@@ -18,7 +18,7 @@ module.exports = {
 			);
 			data.push(commands.map((command) => command.name).join(', '));
 			data.push(
-				`\nVous pouvez aussi utiliser \`${config.prefix}help [nom de la commande]\` pour avoir des informations à propos d'une commande spécifique!`,
+				`\nVous pouvez aussi utiliser \`${prefix}help [nom de la commande]\` pour avoir des informations à propos d'une commande spécifique!`,
 			);
 
 			return message.author
@@ -42,8 +42,8 @@ module.exports = {
 
 		const name = args[0].toLowerCase();
 		const command =
-      commands.get(name) ||
-      commands.find((c) => c.aliases && c.aliases.includes(name));
+			commands.get(name) ||
+			commands.find((c) => c.aliases && c.aliases.includes(name));
 
 		if (!command) {
 			return message.reply('cette commande n\'existe pas! 🥴');
@@ -51,11 +51,11 @@ module.exports = {
 
 		data.push(`🏷️ Nom: \`${command.name}\`\n`);
 
-		if (command.aliases) {data.push(`💡 Alias: \`${command.aliases.join(', ')}\`\n`);}
-		if (command.description) {data.push(`📚 Description: \`${command.description}\`\n`);}
+		if (command.aliases) { data.push(`💡 Alias: \`${command.aliases.join(', ')}\`\n`); }
+		if (command.description) { data.push(`📚 Description: \`${command.description}\`\n`); }
 		if (command.usage) {
 			data.push(
-				`🔑 Utilisation: \`${config.prefix}${command.name} ${command.usage}\`\n`,
+				`🔑 Utilisation: \`${prefix}${command.name} ${command.usage}\`\n`,
 			);
 		}
 
