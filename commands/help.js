@@ -4,8 +4,8 @@ const prefix = process.env.PREFIX;
 module.exports = {
 	name: 'help',
 	description: 'Liste de toutes les commandes ou information sur une commande spécifique.',
-	aliases: ['commands, commandes, aide'],
-	usage: '[nom de la commande]',
+	aliases: ['commands', 'commandes', 'aide'],
+	usage: ['', '[nom de la commande]'],
 	cooldown: 5,
 	execute(message, args) {
 		const data = [];
@@ -13,14 +13,14 @@ module.exports = {
 
 		if (!args.length) {
 			data.push(
-				'Voici une liste des commandes disponible sur le serveur de **Loosha**:',
+				'Voici une liste des commandes disponibles sur le serveur de **Loosha**:',
 			);
 			// Get only public commands and remove " - " from the final one
 			data.push(commands.map((command) => {
 				if (!command.private) return `\`${prefix}${command.name}\` - `;
 			}).join('').toString().slice(0, -2));
 			data.push(
-				`\nVous pouvez aussi utiliser \`${prefix}help [nom de la commande]\` pour avoir des informations à propos d'une commande spécifique!`,
+				`\nVous pouvez aussi utiliser \`${prefix}help [nom de la commande]\` pour avoir des informations à propos d'une commande spécifique! 😋`,
 			);
 
 			return message.author
@@ -47,18 +47,21 @@ module.exports = {
 			commands.get(name) ||
 			commands.find((c) => c.aliases && c.aliases.includes(name));
 
-		if (!command) {
+		if (!command || command.private) {
 			return message.reply('cette commande n\'existe pas! 🥴');
 		}
 
+		data.push(`**Voici les informations de la commande \`${prefix}${command.name}\`**\n`);
 		data.push(`🏷️ Nom: \`${command.name}\`\n`);
 
-		if (command.aliases) { data.push(`💡 Alias: \`${command.aliases.join(', ')}\`\n`); }
+		if (command.aliases) { data.push(`💡 Alias: ${command.aliases.map(alias => `\`${prefix}${alias}\``).join(', ')}\n`); }
 		if (command.description) { data.push(`📚 Description: \`${command.description}\`\n`); }
 		if (command.usage) {
-			data.push(
-				`🔑 Utilisation: \`${prefix}${command.name} ${command.usage}\`\n`,
-			);
+			// Returns multiple usages dynamically 
+			data.push(`🔑 Utilisation: ${command.usage.map(u => {
+				if (u) return `\`${prefix}${command.name} ${u}\``;
+				return `\`${prefix}${command.name}\``;
+			}).join(' ou ')}`);
 		}
 
 		data.push(
