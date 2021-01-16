@@ -2,6 +2,7 @@ module.exports = {
   name: "server",
   description: "Indique des informations sur le serveur.",
   aliases: ["server-info"],
+  usage: [""],
   cooldown: 0,
   execute(message) {
     message.client.guilds.cache.forEach((guild) => {

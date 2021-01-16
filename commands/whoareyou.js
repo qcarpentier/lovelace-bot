@@ -2,6 +2,7 @@ module.exports = {
   name: "whoareyou",
   description: "Ping",
   aliases: ["quiestu", "botinfo", "bot"],
+  usage: [""],
   cooldown: 240,
   execute(message) {
     message.channel.send(`Je m'appelle **Ada Lovelace** et je suis une _assistante virtuelle_ conçue par **Loosha**.
